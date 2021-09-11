@@ -18,7 +18,7 @@
     border-radius: 2px;
   }
   
-  nav {
+  nav { /*nav bar*/
     background-color: rgba(0,139, 139,0.4);
     display: flex;
     flex-flow: row wrap;
@@ -28,20 +28,20 @@
     margin-bottom: 15px;
   }
   
-  nav a {
+  nav a { /*text in nav bar*/
     color: rgba(0,139, 139, 1);
   }
   
   
   /* Page styles */
-  .wrapper {
+  .wrapper { /*font*/
     display:flex;
     flex-direction: column;
     font-family: ‘Segoe UI’, Candara, ‘Bitstream Vera Sans’, ‘DejaVu Sans’, ‘Bitsream Vera Sans’, ‘Trebuchet MS’, Verdana, ‘Verdana Ref’, sans-serif;
     margin:10px;
   }
   
-  .title{
+  .title{ /*Heading*/
     display: inline-block;
     background-color: rgba(0,139, 139,0.8);
     border-radius: 4px;
@@ -50,17 +50,17 @@
     margin-bottom: 5px;
   }
   
-  .subtitle {
-    color: rgba(0,0,0,0.8);
+  .subtitle { /*First the bastics*/
+    color: rgba(0, 0, 0, 0.8);
     margin: 0px;
     margin-bottom: 5px;
   }
   
-  .default{
+  .default{ /*margins for whole*/
     margin-bottom: 5px;
   }
   
-  .section_1 {
+  .section_1 { /*goals and what you need*/
     display: flex;
     justify-content: space-around;
     flex-flow: row wrap;
@@ -72,7 +72,7 @@
     margin-top: 5px;
   }
   
-  .section_2 {
+  .section_2 { /*blue*/
     background-color: skyblue;
     border: 1px dashed #000;
     border-radius: 4px;
@@ -80,26 +80,26 @@
     margin: 20px 25px;
   }
   
-  .section_2 .subtitle {
+  .section_2 .subtitle { /*Lets try some inline*/
     margin: 0;
     margin-bottom: 15px;
   }
   
-  .section_3 {
+  .section_3 { /*Empty elements wrapped in div*/
     margin-bottom: 25px;
   }
   
-  .section_4 {
+  .section_4 { /*whole image section*/
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-evenly;
   }
   
-  .section_4 .text {
+  .section_4 .text { /*image text*/
     display: block;
   }
   
-  .section_4 div.left{
+  .section_4 div.left{ /*not using*/
     display: block;
     border-radius: 4px;
     background-color: #ff8c00a6;
@@ -108,12 +108,12 @@
   }
   
   .section_4 .left ul {
-    list-style: circle;
+    list-style: square;
     margin:0;
     padding:0;
   }
   
-  .section_4 div.right{
+  .section_4 div.right{ /*not using*/
     display: block;
     border-radius: 4px;
     background-color: #ffe100a6;
