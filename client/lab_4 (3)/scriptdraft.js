@@ -1,5 +1,5 @@
 let slidePosition = 0; 
-const slides = document.getElementsByClassName('carousel_item');
+const slides = document.getElementByClassName('carousel_item'); 
 const totalSlides = slides.length; 
 
 console.log(totalSlides); 
