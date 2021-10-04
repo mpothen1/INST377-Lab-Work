@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8' />
+    <title>Lab 5</title>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css' />
+    <link rel='stylesheet' href='styles.css' />
+</head>
+
+<body>
+    <div class='wrapper'>
+        <!--Entire page-->
+
+        <div class="container">
+            <!--top header-->
+            <div class="box is-size-4 has-background-warning">Marilyn Pothen's Lab 5</div>
+
+
+
+            <div class="columns is-mobile is-centered is-vcentered">
+                <!--bottom row-->
+                <div class='column is-narrow'>
+                    <div class="box">
+                        <!--first componenet-->
+                        <form action ='/api' method = 'GET'>
+                            <div class="control">
+                                <!--holds name-->
+                                <label class='label' for='firstname'>First Name </label>
+                                <input id='firstname' name='firstname' type='text'>
+                            </div>
+
+                            <div class='control'>
+                                <!--holds food -->
+                                <label class='label' for='food_preference'>Food Preference</label>
+                                <input id='food_preference' name='food_preference' type='text'>
+                            </div>
+
+                            <div>
+                                <!--holds radio -->
+                                <fieldset class=column>
+                                    <legend>Veggie or Vegan?</legend>
+
+                                    <input id='yes-option' name='food' type='radio' value='yes'>
+                                    <label for='yes-option'>Yes</label>
+
+                                    <input id='no-option' name='food' type='radio' value='no'>
+                                    <label for='no-option'>No</label>
+                                </fieldset>
+                            </div>
+
+                            <button class="button is-success is-round">Submit</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="column is-half is-vcentered">
+                    <!--second component-->
+                    <div class="box has-background-white">This is going to be something in two weeks.</div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
