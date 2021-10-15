@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8' />
+        <title>Lab 6</title>
+        <!--<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css' />-->
+        <link rel='stylesheet' href='styles.css' />
+    </head>
+
+    <body>
+        <h2 class = 'title'>PG County Open Data Food Service</h1>
+        <form>
+            <label for='zip'>Enter Zipcode</label>
+            <input class= 'search' id='zip' name='zip' type='text'>
+
+            <!--<button type='submit' class = 'fetch'>Search</button>-->
+            <button class = 'fetch'>Do a Fetch Request</button>
+
+            <ul class = suggesstions> </ul>
+
+
+        </form>
+
+        <script>
+            async function fetchRequest(endpoint){ //cross origin request 
+                
+                try{
+                    const request = await fetch(endpoint); 
+                    const servicesArray = await request.json(); 
+                    console.table(servicesArray)
+                    return servicesArray; 
+                }catch (err) {
+                    console.error(err); 
+                    return err;
+                }
+                
+            }
+
+            async function windowActions(){
+                console.log('loaded main script'); 
+                const endpoint = "https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json"
+                
+                const fetchElement = document.querySelector('.fetch'); 
+                
+                    const data = await fetchRequest(endpoint);
+                    console.log(data) 
+
+                
+                    
+                }
+
+            
+               
+            window.onload = windowActions()
+            
+            
+            //////////////////////////////
+            /*const endpoint = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json'
+        
+            const services = []; 
+            //fetch json data into a services array 
+            
+            
+            fetch(endpoint)
+                .then(blob => blob.json)
+                .then(data => services.push(...data)) 
+
+            
+
+            function findMatches(wordToMatch, services){
+                return services.filter(place => {
+                    //if zip code matches waht was searched 
+                    const regex = new RegExp(wordToMatch, 'gi');
+                    return place.zip.match(regex)
+                });
+            }
+
+            function displayMatches(){
+                //console.log(this.value);
+                const matchArray = findMatches(this.value, services); 
+                console.log(matchArray)
+            }
+
+            const searchInput = document.querySelector('.search');
+            const suggestions = document.querySelector('.suggestions');
+
+            searchInput.addEventListener('keyup', displayMatches); */
+           
+        
+        
+        
+        </script>
+
+    </body>
+    
+    
+
+</html>
