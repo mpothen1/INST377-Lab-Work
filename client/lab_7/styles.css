@@ -1,0 +1,23 @@
+body{
+    background-color: lightpink;
+}
+
+h1{
+    background-color: yellow;
+}
+
+.columns{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.wrapper{
+    display: flex;
+}
+
+.container {
+    max-width: 960px;
+    margin-top: 25px; 
+}
+
+#mapid { height: 340px; }
