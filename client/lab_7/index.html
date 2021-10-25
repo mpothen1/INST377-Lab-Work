@@ -3,16 +3,8 @@
     <head>
         <meta charset='UTF-8' />
         <title>Marilyn Pothen - Lab 7</title>
-        <!--CSS-->
-        <!--<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css' />-->
+        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css' />
         
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-        crossorigin=""/>
-
-        <link rel='stylesheet' href='styles.css' />
-
-        <!--Leaflet JS-->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin=""/>
@@ -20,42 +12,51 @@
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
-
+        
+        <link rel='stylesheet' href='styles.css' />
+        
         
     </head>
 
     <body>
-        <h2 class = 'title'>Marilyn PothenPG County Open Data Food Service</h1>
-            <p><em>Search by zipcode</em></p>
-            <form>
-                <label for='zip'>Enter Zipcode</label>
-                <input class= 'search' id='zip' name='zip' type='text'>
-    
-                <!--<button type='submit' class = 'fetch'>Search</button>-->
-                <!--<button class = 'fetch'>Do a Fetch Request</button>-->
-    
-                <ul class = suggestions> 
+        <h1 class = 'title'>Marilyn Pothen - PG County Open Data Food Service</h1>
+           <div class="wrapper">
+                <div class = "column box"> 
+                    <form>
+                        <label for='zip'>Enter Zipcode</label>
+                        <input class= 'search' id='zip' name='zip' type='text'>
+                    </form>
 
-                </ul>
+                    <ul class = suggestions> </ul>
+                </div>
 
-
-
+                <div class="column">
+                    <div id="mapid"></div>
+                </div>
+               
+           </div>
+            
         <script>
 
             async function windowActions(){
                 const endpoint = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json'
-        
-            
-                //const services = []; 
-                //fetch json data into a services array 
-                /*fetch(endpoint)
-                    .then(blob => blob.json())
-                    .then(data => services.push(...data))*/
-
+                const accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+                
                 const request = await fetch(endpoint)
                 const services = await request.json()
 
-                console.log(services)
+                //Leaflet map
+                const mymap= L.map('mapid').setView([38.989, -76.93], 12); 
+                function mapInit(){
+                    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                        maxZoom: 18,
+                        id: 'mapbox/streets-v11',
+                        tileSize: 512,
+                        zoomOffset: -1,
+                        accessToken: accessToken
+                    }).addTo(mymap);
+                }
 
                 function findMatches(wordToMatch, services){
                     return services.filter(place => {
@@ -66,11 +67,12 @@
 
                 }
 
-                function displayMatches(event){
+                function displayMatches(event, mymap){
                     console.log(event.target.value);
                     const matchArray = findMatches(event.target.value, services)
-                    console.log(matchArray);
-                    const html = matchArray.map(place => {
+                    //console.log(matchArray);
+                    const limited_list = matchArray.slice(0,5)
+                    const html = limited_list.map(place => {
                         return `
                         <li>
                             <span class="name">${place.name}</span>
@@ -86,16 +88,30 @@
                             
                     }).join(''); //forms into a string 
                     suggestions.innerHTML = html;
+
+                    
+                    limited_list.forEach(element => {
+                        console.log(element.geocoded_column_1.coordinates)
+                        const y = element.geocoded_column_1.coordinates[0];
+                        const x = element.geocoded_column_1.coordinates[1];
+                        L.marker([x, y]).addTo(mymap);
+                    });
+                    const firstlong = limited_list[0].geocoded_column_1.coordinates[0];
+                    const firstlat = limited_list[0].geocoded_column_1.coordinates[1]; 
+                    mymap.setView([firstlat, firstlong], 12); 
+                        
+                    
+                    
                 }
-                
+                //display map 
+                mapInit()
                 const searchInput = document.querySelector('.search');
                 const suggestions = document.querySelector('.suggestions');
+                
 
-                searchInput.addEventListener('change', displayMatches);
-                searchInput.addEventListener('keyup', (evt) => {displayMatches(evt)});
-            
-        
-
+                //calls dispaly matches on typing and search
+                //searchInput.addEventListener('change', displayMatches);
+                searchInput.addEventListener('keyup', (evt) => {displayMatches(evt, mymap)});
             }
 
             window.onload = windowActions(); 

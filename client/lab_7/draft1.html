@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8' />
+        <title>Marilyn Pothen - Lab 7</title>
+        <!--CSS-->
+        <!--<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css' />-->
+        
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+
+        <link rel='stylesheet' href='styles.css' />
+
+        <!--Leaflet JS-->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+        
+    </head>
+
+    <body>
+        <h2 class = 'title'>Marilyn PothenPG County Open Data Food Service</h1>
+            <p><em>Search by zipcode</em></p>
+            <form>
+                <label for='zip'>Enter Zipcode</label>
+                <input class= 'search' id='zip' name='zip' type='text'>
+    
+                <!--<button type='submit' class = 'fetch'>Search</button>-->
+                <!--<button class = 'fetch'>Do a Fetch Request</button>-->
+    
+                <ul class = suggestions> 
+
+                </ul>
+
+
+
+        <script>
+
+            async function windowActions(){
+                const endpoint = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json'
+        
+            
+                //const services = []; 
+                //fetch json data into a services array 
+                /*fetch(endpoint)
+                    .then(blob => blob.json())
+                    .then(data => services.push(...data))*/
+
+                const request = await fetch(endpoint)
+                const services = await request.json()
+
+                console.log(services)
+
+                function findMatches(wordToMatch, services){
+                    return services.filter(place => {
+                        //if zip code matches 
+                        const regex = new RegExp(wordToMatch, 'gi')
+                        return place.zip.match(regex)
+                    });
+
+                }
+
+                function displayMatches(event){
+                    console.log(event.target.value);
+                    const matchArray = findMatches(event.target.value, services)
+                    console.log(matchArray);
+                    const html = matchArray.map(place => {
+                        return `
+                        <li>
+                            <span class="name">${place.name}</span>
+                            <span class="category">${place.category}</span>
+                            <span class="address">${place.address_line_1}</span>
+                            <span class="zip">${place.zip}</span>
+                            <span> 
+                                </span> 
+
+
+                        </li>
+                        `;
+                            
+                    }).join(''); //forms into a string 
+                    suggestions.innerHTML = html;
+                }
+                
+                const searchInput = document.querySelector('.search');
+                const suggestions = document.querySelector('.suggestions');
+
+                searchInput.addEventListener('change', displayMatches);
+                searchInput.addEventListener('keyup', (evt) => {displayMatches(evt)});
+            
+        
+
+            }
+
+            window.onload = windowActions(); 
+            
+        
+        </script>
+
+    </body>
+    
+    
+
+</html>
